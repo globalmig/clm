@@ -30,7 +30,7 @@ export default function MovableWall() {
 
       <div className="w-full max-w-[1440px] mb-8 border-b-2 pb-8 md:pb-20 px-4">
         {imgList.map((item) => (
-          <Image src={item.img} alt={item.alt} width={0} height={0} sizes="100vw" className="w-full h-auto object-contain mb-4 rounded-3xl" key={item.key} />
+          <Image src={item.img} alt={item.alt} width={1000} height={700} sizes="100vw" className="w-full h-auto max-h-[700px] object-cover mb-8 rounded-3xl" key={item.key} />
         ))}
       </div>
     </div>

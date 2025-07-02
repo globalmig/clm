@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /call
+
+User-agent: Yeti
+Disallow: /call
+
+Sitemap: https://www.daechanggc.com/sitemap.xml

@@ -16,7 +16,7 @@ const btnData = [
 
 const imgList = [
   { title: "이동식방음벽- RPP/E.G.I/스틸", img: "/images/business/certificates (7).webp", alt: "이동식방음벽- RPP/E.G.I/스틸", key: "0" },
-  { title: "1E.G.I 휀스", img: "/images/business/certificates (14).webp", alt: "1E.G.I 휀스", key: "1" },
+  { title: "1E.G.I 휀스", img: "/images/business/certificates (13).webp", alt: "1E.G.I 휀스", key: "1" },
   { title: "1RPP 방음벽 - 비계식", img: "/images/business/certificates (3).webp", alt: "1RPP 방음벽 - 비계식", key: "2" },
   { title: "1RPP 방음벽 - 자립식", img: "/images/business/certificates (2).webp", alt: "1RPP 방음벽 - 자립식", key: "3" },
   { title: "스틸방음벽 - 자립식", img: "/images/business/certificates (4).webp", alt: "스틸방음벽", key: "4" },
@@ -37,7 +37,7 @@ export default function Business() {
       {imgList.map((item) => (
         <div key={item.key} className="w-full max-w-[1440px] mb-8 border-b-2 pb-8 md:pb-20">
           <p className="mb-2 text-lg md:text-3xl font-semibold text-center py-2 md:py-10 transform ease-in-out duration-500">{item.title}</p>
-          <Image src={item.img} alt={item.alt} width={0} height={0} sizes="100vw" className="w-full h-auto object-contain rounded-3xl" />
+          <Image src={item.img} alt={item.alt} width={1000} height={700} sizes="100vw" className="w-full h-auto max-h-[700px] object-cover rounded-3xl" />
         </div>
       ))}
     </div>

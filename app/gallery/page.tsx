@@ -42,7 +42,7 @@ export default function Gallery() {
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 border-0 md:border-t pt-10 md:pt-20">
         {ImgData.map((item, index) => (
           <div key={index} className="relative w-full h-[400px] lg:hover:scale-125 hover:shadow-2xl hover:z-10 transform ease-in-out duration-300">
-            <Image src={item.images} alt={`시공현장사진 ${index + 1}`} fill className="object-cover rounded-xl" />
+            <Image src={item.images} alt={`시공현장사진 ${index + 1}`} fill  className="object-cover rounded-xl" />
           </div>
         ))}
       </div>

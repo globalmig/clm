@@ -12,6 +12,7 @@ import "swiper/css/thumbs";
 
 // import required modules
 import { FreeMode, Navigation, Thumbs, Autoplay, Pagination } from "swiper/modules";
+import Image from "next/image";
 
 interface SliderProps {
   images: { images: string }[];
@@ -60,7 +61,7 @@ export default function Slider02({ images }: SliderProps) {
         >
           {images.map((imageObj, index) => (
             <SwiperSlide key={index} className="h-full">
-              <img src={imageObj.images} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
+              <Image src={imageObj.images} alt={`Slide ${index + 1}`} width={1000} height={700} className="w-full h-auto max-w-[1440px] max-h-[700px] object-contain" />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -106,10 +107,11 @@ export default function Slider02({ images }: SliderProps) {
         >
           {images.map((imageObj, index) => (
             <SwiperSlide key={index} className="h-full ">
-              <img
+              <Image
                 src={imageObj.images}
                 alt={`Thumbnail ${index + 1}`}
-                className="w-full h-full object-cover cursor-pointer rounded-lg sm:rounded-xl transition-opacity hover:opacity-80 border-2 shadow-lg"
+                width={1000} height={0}
+                className="w-full h-full object-contain cursor-pointer rounded-lg sm:rounded-xl transition-opacity hover:opacity-80 border-2 shadow-lg"
               />
             </SwiperSlide>
           ))}

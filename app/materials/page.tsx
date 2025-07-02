@@ -13,7 +13,7 @@ const materialData = [
       "설치가 간단하고, 제품이 견고하며, 용도에 맞게 제작 설치가 쉽다.",
       "내식성을 높인 제품으로 일반적으로 도금 부식이 적고, 평활하므로 내구성과 안정성을 갖고 있다.",
     ],
-    images: [{ images: "/images/materials/slider/1/certificates (19).png" }, { images: "images/materials/slider/1/certificates (20).png" }],
+    images: [{ images: "/images/materials/slider/1/certificates (19).png" }, { images: "/images/materials/slider/1/certificates (20).png" }],
   },
   {
     title: "스틸방음판",
@@ -23,7 +23,7 @@ const materialData = [
       "공사장에서 발생하는 각종 소음 및 자비사용 시 발생하는 파편의 방호역할을 한다.",
       "경량으로 설치 및 보수가 간편하며, 스틸로 만들어져 견고하므로 재사용이 가능하다.",
     ],
-    images: [{ images: "/images/materials/slider/2/certificates (8).png" }, { images: "images/materials/slider/2/certificates (25).png" }],
+    images: [{ images: "/images/materials/slider/2/certificates (8).png" }, { images: "/images/materials/slider/2/certificates (25).png" }],
   },
   {
     title: "RPP방음판",
@@ -161,7 +161,7 @@ export default function Materials() {
             ))}
           </ul>
           <div className="relative w-full h-[500px] md:h-[800px] rounded-3xl mt-10">
-            <Image src={section.image} alt="" fill className="object-cover rounded-3xl" />
+            <Image src={section.image} alt="" width={1000} height={700} className="w-full h-auto max-h-[700px] object-contain rounded-3xl" />
           </div>
         </div>
       ))}
