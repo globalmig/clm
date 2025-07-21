@@ -1,47 +1,15 @@
-import Image from "next/image";
-import Gnb from "./components/common/Gnb";
 import Slider from "./components/common/Slider";
 import GalleryMini from "./components/common/GalleryMini";
-import { link } from "fs";
 import GoogleMap from "./components/common/GoogleMap";
 import Link from "next/link";
 
 const sectionsData = [
   {
-    title: "공장사진",
-    link: "/factory",
+    title: "제품소개",
+    link: "/products",
     content: "대창강건 공장 현장 및 자재관리",
-    images: ["/images/main/certificates (10).webp", "/images/main/certificates (11).webp", "/images/main/certificates (12).webp"],
-  },
-  {
-    title: "시공분야",
-    link: "/business",
-    content: ["이동식방음벽 | E.G.I 휀스 | RPP 방음벽 "],
-
-    images: ["/images/main/business (1).png", "/images/main/business (2).png", "/images/main/business (3).png"],
-  },
-  {
-    title: "이동식 방음벽",
-    link: "/movableWall",
-    content: "이동식 방음벽 설치",
-    subcontent: "지반에 문제가 있어 안전한 방음벽을 설치 하기 힘들때 설치가 가능한 '이동식 방음벽' RPP, E.G.I, 스틸방음벽 3종류의 방음벽이 시공가능합니다.",
-    images: ["/images/main/certificates (9).webp", "/images/main/certificates (8).webp", "/images/main/certificates (13).webp"],
-  },
-  {
-    title: "자재매입 및 판매",
-    link: "/materials",
-    content: ["EGI휀스", "스틸방음판"],
-    subcontent: [
-      " 공사현장, 공장 등 내부차폐 및 날림먼지 방지를 목적으로 설치하는 경제성이 뛰어난 휀스이다. * 파손 시 부분보수가 간편하여 경제적이고 주위 경관과 잘 어울린다. * 설치가 간단하고, 제품이 견고하며, 용도에 맞게 제작 설치가 쉽다. * 내식성을 높인 제품으로 일반적으로 도금 부식이 적고, 평활하므로 내구성과 안정성을 갖고 있다.",
-      "[제품규격] 500*2000*30T * 건설현장 및 토목현장에서 적합한 가설방음벽이다. * 공사장에서 발생하는 각종 소음 및 자비사용 시 발생하는 파편의 방호역할을 한다. * 경량으로 설치 및 보수가 간편하며, 스틸로 만들어져 견고하므로 재사용이 가능하다.",
-    ],
-    images: ["/images/main/certificates (1).png", "/images/main/certificates (2).png", "/images/main/certificates.png"],
-  },
-  {
-    title: "시공갤러리",
-    link: "/gallery",
-    content: "(주)대창강건의 작업현장 사진",
-    images: ["/images/main/certificates (5).webp", "/images/main/certificates (6).webp", "/images/main/certificates (7).webp"],
+    subcontent: "",
+    images: ["/images/main/하면자동라벨러(CAD-150).jpg", "/images/main/상면인쇄&상면자동라벨러(CAU&PAU).jpg", "/images/main/양면자동라벨러(CASS-150).jpg"],
   },
 ];
 
@@ -52,10 +20,11 @@ export default function Home() {
         <Slider />
         <div className="px-4 ">
           <div className="w-full text-center py-10  ">
-            <p>각종 안전휀스 방음벽 전문</p>
-            <p>안녕하세요 저희 (주) 대창강건은 가설방음벽, EGI 휀스, 홀딩도어, 각종 울타리, 휀스, 방음벽, 가드레일 및 다양한 시공 및 해체를 주 사업분야로 운영 중인 가설울타리 전문 기업입니다.</p>
-            <p>또한 EGI판, RPP방음판, 가설방음판, 단관파이프, H-BEAM지주, 클램프, 연결핀등 중고 가설울타리자재를 좋은 가격으로 판매, 매입도 하고 있습니다.</p>
-            <p>수년간의 다양한 현장경험과 풍부한 사업운영 노하우로 고객님께 100% 만족을 드리기 위하여 최선을 다할 것을 약속드립니다.</p>
+            <p>
+              씨엘엠(CLM)은 산업 현장의 효율성과 안전성을 극대화하는 산업용 기계 및 설비 전문 제조 기업입니다. 다년간 축적된 기술력과 정밀한 설계 능력을 바탕으로, 다양한 산업 분야에 최적화된 맞춤형
+              기계를 개발·공급하고 있습니다. 우리는 "기계 그 이상의 가치"를 제공하기 위해 노력합니다. 단순한 장비를 넘어, 고객의 생산성과 품질 향상을 이끄는 스마트한 솔루션을 제안하며, 지속적인 기술
+              개발과 품질 관리를 통해, 고객의 신뢰를 최우선 가치로 삼는 씨엘엠은 오늘보다 더 나은 내일을 위한 산업 혁신의 파트너가 되겠습니다.
+            </p>
           </div>
           {sectionsData.map((list) => (
             <section className="section01">

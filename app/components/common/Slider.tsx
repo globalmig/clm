@@ -12,7 +12,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 export default function Slider() {
   return (
-    <div className="w-full max-w-[1456px] h-96 relative">
+    <div className="w-full max-w-[1456px] h-[600px] relative">
       <Swiper
         spaceBetween={12}
         centeredSlides={true}
@@ -25,19 +25,117 @@ export default function Slider() {
         }}
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper rounded-3xl"
+        className="mySwiper rounded-3xl h-full flex items-center"
       >
-        <SwiperSlide className="">
-          <Image src="/images/main/certificates.webp" alt="" fill className="object-cover" />
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/바이알자동라벨러(CAR-V150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
         </SwiperSlide>
-        <SwiperSlide className="">
-          <Image src="/images/main/certificates (1).webp" alt="" fill className="object-cover" />
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/삼면자동라벨러(CAS-3SIDE).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
         </SwiperSlide>
-        <SwiperSlide className="">
-          <Image src="/images/main/certificates (2).webp" alt="" fill className="object-cover" />
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/상면인쇄&상면자동라벨러(CAU&PAU).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
         </SwiperSlide>
-        <SwiperSlide className="">
-          <Image src="/images/main/certificates (3).webp" alt="" fill className="object-cover" />
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/상면자동라벨러(CAU-150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/상하면자동라벨러(CAUD-150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/시린지자동라벨러(CAU-T150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/양면자동라벨러(CASS-150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/원형반자동라벨러(CMR-150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/원형자동라벨러(CAR-150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/파우치탁상형라벨러(CPT-150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide className="!flex !items-center !justify-center h-full">
+          <Image
+            src="/images/main/하면자동라벨러(CAD-150).jpg"
+            alt=""
+            width={1000}
+            height={600}
+            className="object-contain"
+            style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }}
+          />
         </SwiperSlide>
       </Swiper>
     </div>

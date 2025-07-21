@@ -26,10 +26,16 @@ export default function TopButton() {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed w-20 h-20 md:w-28 md:h-28 bottom-36 md:bottom-44 right-10 p-3 rounded-full bg-white border-2 text-white shadow-lg hover:border-none hover:bg-green-700 transition z-50 group"
+          className="fixed right-4 bottom-24 sm:right-6 sm:bottom-28 md:right-10 md:bottom-32
+                     z-50 bg-white border-2 rounded-full shadow-lg transition-all duration-300
+                     hover:bg-green-700 hover:border-transparent group
+                     w-16 h-16"
           aria-label="Scroll to top"
         >
-          <FaArrowUp size={40} className="w-full text-black group-hover:text-white transition" />
+          <FaArrowUp
+            className="text-black group-hover:text-white transition-all
+                       text-2xl  mx-auto"
+          />
         </button>
       )}
     </>
