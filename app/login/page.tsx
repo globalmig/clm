@@ -51,7 +51,17 @@ export default function AdminLoginPage() {
         throw error;
       }
 
-      router.push("/manager");
+      // ✅ 세션 반영까지 잠깐 기다림
+      await new Promise((res) => setTimeout(res, 500));
+
+      // ✅ 세션이 잘 설정됐는지 확인
+      const { data: sessionData } = await supabase.auth.getSession();
+
+      if (sessionData.session) {
+        router.push("/manager");
+      } else {
+        throw new Error("세션이 활성화되지 않았습니다.");
+      }
     } catch (err: any) {
       setError(err.message || "로그인 중 오류가 발생했습니다");
     } finally {

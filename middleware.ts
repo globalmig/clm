@@ -1,4 +1,4 @@
-// middleware.ts
+// ✅ 수정된 middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
@@ -8,10 +8,11 @@ export async function middleware(req: NextRequest) {
   const supabase = createMiddlewareClient({ req, res });
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  if (!user) {
+  // 세션 없으면 로그인 페이지로
+  if (!session) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
