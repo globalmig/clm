@@ -11,15 +11,23 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (data.user) {
-        alert("로그인 상태입니다");
-        router.push("/manager");
-      } else {
-        setUser(data.user);
+      setLoading(true);
+      try {
+        const { data } = await supabase.auth.getUser();
+        if (data.user) {
+          alert("로그인 상태입니다");
+          router.push("/manager");
+        } else {
+          setUser(data.user);
+        }
+      } catch (err) {
+        console.error("사용자 정보를 가져오는 중 오류 발생:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -29,13 +37,20 @@ export default function AdminLoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
-      setError(error.message);
-    } else {
+      if (error) {
+        throw error; // catch 블록으로 이동
+      }
+
       router.push("/manager");
+    } catch (err: any) {
+      setError(err.message || "로그인 중 오류가 발생했습니다");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,7 +60,9 @@ export default function AdminLoginPage() {
       <input type="email" placeholder="이메일" className="w-full border p-2 rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
       <input type="password" placeholder="비밀번호" className="w-full border p-2 rounded" value={password} onChange={(e) => setPassword(e.target.value)} />
       {error && <p className="text-red-500">{error}</p>}
-      <button className="w-full bg-black text-white py-2 rounded">로그인</button>
+      <button type="submit" disabled={loading} className={`w-full py-2 rounded ${loading ? "bg-gray-500" : "bg-black"} text-white`}>
+        {loading ? "로그인 중..." : "로그인"}
+      </button>
     </form>
   );
 }
