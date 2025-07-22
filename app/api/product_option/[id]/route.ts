@@ -19,9 +19,9 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = createRouteHandlerClient({ cookies });
 
-  const body = await req.json(); // { title, content }
-
-  const { title, content } = body;
+  const formData = await req.formData();
+  const title = formData.get("title") as string;
+  const content = formData.get("content") as string;
 
   if (!title || !content) {
     return NextResponse.json({ error: "필수 항목 누락" }, { status: 400 });

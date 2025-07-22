@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
   const supabase = createRouteHandlerClient({ cookies });
 
-  const { data, error } = await supabase.from("product_intro").select("*").eq("id", params.id).single();
+  const { data, error } = await supabase.from("product_video").select("*").eq("id", params.id).single();
 
   if (error || !data) {
     return NextResponse.json({ error: "게시글을 찾을 수 없습니다." }, { status: 404 });
@@ -23,11 +23,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
 
-  if (!title || !content) {
+  if (!title) {
     return NextResponse.json({ error: "필수 항목 누락" }, { status: 400 });
   }
 
-  const { error } = await supabase.from("product_intro").update({ title, content }).eq("id", params.id);
+  const { error } = await supabase.from("product_video").update({ title, content }).eq("id", params.id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -44,7 +44,7 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ error: "삭제할 ID가 없습니다." }, { status: 400 });
   }
 
-  const { error } = await supabase.from("product_intro").delete().eq("id", params.id);
+  const { error } = await supabase.from("product_video").delete().eq("id", params.id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

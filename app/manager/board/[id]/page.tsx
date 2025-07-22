@@ -17,19 +17,6 @@ export default function BoardDetailPage({ params }: PageProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) {
-        alert("로그인이 필요합니다.");
-        router.push("/login");
-      } else {
-        setUser(data.user);
-      }
-    };
-    checkUser();
-  }, [router]);
-
   // 게시글 불러오기
   useEffect(() => {
     const fetchInquiry = async () => {

@@ -10,13 +10,14 @@ export default function AdminEditPage() {
   const { id } = useParams();
   const router = useRouter();
 
-  const [type, setType] = useState("product_intro");
+  const searchParams = useSearchParams();
+  const typeFromUrl = searchParams.get("type") || "product_intro";
+  const [type, setType] = useState(typeFromUrl);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const searchParams = useSearchParams();
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -36,13 +37,12 @@ export default function AdminEditPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/api/product_intro/${id}`);
+        const res = await axios.get(`/api/${type}/${id}`);
         const data = res.data;
 
         setTitle(data.title);
         setContent(data.content);
-        setType("product_intro"); // or data.type if available
-        // 이미지는 미리보기만 보여주고 수정은 새 파일 선택 시에만
+        // setType(type); ← 이미 고정값으로 넣었으니 굳이 다시 설정할 필요 없음
       } catch (err) {
         console.error("수정용 데이터 로딩 실패", err);
         alert("게시글 정보를 불러오지 못했습니다.");
@@ -50,8 +50,8 @@ export default function AdminEditPage() {
       }
     };
 
-    if (id) fetchData();
-  }, [id]);
+    if (id && type) fetchData();
+  }, [id, type]);
 
   // 제출
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,10 +65,11 @@ export default function AdminEditPage() {
     setLoading(true);
 
     try {
-      await axios.patch(`/api/product_intro/${id}`, formData);
+      await axios.patch(`/api/${type}/${id}`, formData);
       alert("수정 완료!");
       router.push("/manager");
     } catch (err) {
+      console.error("타입", type);
       console.error("수정 실패", err);
       alert("수정에 실패했습니다.");
     } finally {
