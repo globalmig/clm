@@ -5,6 +5,7 @@ import Gnb from "./components/common/Gnb";
 import Footer from "./components/common/Footer";
 import CallBtn from "./components/common/CallBtn";
 import TopButton from "./components/common/TopBtn";
+import { Suspense } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -55,7 +56,18 @@ export default function RootLayout({
         <TopButton />
         <CallBtn />
         <Gnb />
-        {children}
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center min-h-screen">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+                <p className="mt-4 text-gray-600">페이지를 불러오는 중...</p>
+              </div>
+            </div>
+          }
+        >
+          {children}
+        </Suspense>
         <Footer />
       </body>
     </html>
