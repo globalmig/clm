@@ -58,7 +58,7 @@ export default function AdminLoginPage() {
       const { data: sessionData } = await supabase.auth.getSession();
 
       if (sessionData.session) {
-        router.push("/manager");
+        location.href = "/manager";
       } else {
         throw new Error("세션이 활성화되지 않았습니다.");
       }
