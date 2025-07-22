@@ -17,15 +17,20 @@ export default function AdminLoginPage() {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const { data } = await supabase.auth.getUser();
-        if (data.user) {
-          alert("로그인 상태입니다");
+        const { data, error } = await supabase.auth.getSession();
+
+        if (error) {
+          console.error("세션 확인 에러:", error.message);
+        }
+
+        if (data.session?.user) {
+          console.log("이미 로그인 상태입니다.");
           router.push("/manager");
         } else {
-          setUser(data.user);
+          setUser(null);
         }
       } catch (err) {
-        console.error("사용자 정보를 가져오는 중 오류 발생:", err);
+        console.error("세션 확인 중 오류 발생:", err);
       } finally {
         setLoading(false);
       }
@@ -43,7 +48,7 @@ export default function AdminLoginPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
 
       if (error) {
-        throw error; // catch 블록으로 이동
+        throw error;
       }
 
       router.push("/manager");
