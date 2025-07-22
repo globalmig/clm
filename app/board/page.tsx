@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Inquiry } from "@/type/product";
@@ -15,7 +16,6 @@ export default function Board() {
 
   const [inquiry, setInquiry] = useState<Inquiry[]>([]);
   const [totalCount, setTotalCount] = useState(0);
-
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Board() {
         setInquiry(res.data.items || []);
         setTotalCount(res.data.totalCount || 0);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching inquiries:", error);
       }
     };
 
@@ -41,11 +41,12 @@ export default function Board() {
     <div className="max-w-[1440px] mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold text-center border-b pb-6 mb-10">문의 게시판</h1>
 
-      <div className="w-full border rounded-lg overflow-hidden">
+      {/* 데스크탑 테이블 */}
+      <div className="hidden md:block w-full border rounded-lg overflow-hidden">
         <table className="table-fixed w-full text-left text-sm">
           <thead className="bg-gray-100 border-b">
             <tr>
-              <th className="px-4 py-3 w-[10%]">번호</th>
+              <th className="px-4 py-3 w-[10%]">No.</th>
               <th className="px-4 py-3 w-[60%] text-center">제목</th>
               <th className="px-4 py-3 w-[15%]">작성자</th>
               <th className="px-4 py-3 w-[15%]">작성일</th>
@@ -78,6 +79,30 @@ export default function Board() {
         </table>
       </div>
 
+      {/* 모바일 카드형 목록 */}
+      <div className="md:hidden flex flex-col gap-4">
+        {inquiry.length === 0 ? (
+          <p className="text-center py-6 text-gray-500">등록된 문의가 없습니다.</p>
+        ) : (
+          inquiry.map((post, index) => (
+            <div key={post.id} onClick={() => router.push(`/board/${post.id}`)} className="border rounded-md p-4 shadow-sm hover:bg-gray-50 cursor-pointer">
+              <div className="text-xs text-gray-400 mb-1">No. {totalCount - ((currentPage - 1) * ITEMS_PER_PAGE + index)}</div>
+              <div className="font-semibold text-base text-black truncate mb-2">{post.title}</div>
+              <div className="text-sm text-zinc-600 flex justify-between">
+                <span>{post.name}</span>
+                <span>
+                  {new Date(post.created_at).toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })}
+                </span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
       {/* Pagination */}
       {inquiry.length > 0 && (
         <Pagination className="mt-10">
@@ -99,6 +124,7 @@ export default function Board() {
         </Pagination>
       )}
 
+      {/* 글쓰기 버튼 */}
       <div className="text-right mt-6">
         <Link href="/board/write" className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
           글쓰기
