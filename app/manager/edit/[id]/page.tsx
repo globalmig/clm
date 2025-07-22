@@ -1,8 +1,10 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { supabase } from "@/lib/supabaseClient";
+import { User } from "@supabase/supabase-js";
 
 export default function AdminEditPage() {
   const { id } = useParams();
@@ -13,6 +15,22 @@ export default function AdminEditPage() {
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) {
+        alert("로그인이 필요합니다.");
+        router.push("/login");
+      } else {
+        setUser(data.user);
+      }
+    };
+    checkUser();
+  }, [router]);
 
   // 기존 데이터 불러오기
   useEffect(() => {

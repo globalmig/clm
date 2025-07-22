@@ -7,6 +7,7 @@ import { Product } from "@/type/product";
 import { supabase } from "@/lib/supabase";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { User } from "@supabase/supabase-js";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -17,7 +18,7 @@ export default function Products() {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [totalCount, setTotalCount] = useState(0); // 전체 아이템 수
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
@@ -43,7 +44,7 @@ export default function Products() {
         });
 
         setProducts(res.data.items || []);
-        setTotalCount(res.data.totalCount); 
+        setTotalCount(res.data.totalCount);
       } catch (error) {
         console.error("Error fetching products:", error);
       }

@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
 import { Product } from "@/type/product";
+import { User } from "@supabase/supabase-js";
 
 const BOARD_TYPES = [
   { label: "제품소개", value: "product_intro" },
@@ -18,7 +19,7 @@ export default function Manager() {
   const searchParams = useSearchParams();
   const initialType = searchParams.get("type") || "product_intro";
   const [type, setType] = useState(initialType);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [product, setProduct] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -63,6 +64,7 @@ export default function Manager() {
     await supabase.auth.signOut();
     alert("로그아웃되었습니다.");
     router.push("/login");
+    return;
   };
 
   const handleEdit = (id: string) => {

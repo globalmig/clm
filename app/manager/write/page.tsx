@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { routeModule } from "next/dist/build/templates/app-page";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
+import { User } from "@supabase/supabase-js";
 
 export default function AdminPostPage() {
   const router = useRouter();
@@ -11,8 +12,23 @@ export default function AdminPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const searchParams = useSearchParams();
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) {
+        alert("로그인이 필요합니다.");
+        router.push("/login");
+      } else {
+        setUser(data.user);
+      }
+    };
+    checkUser();
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

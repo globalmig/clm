@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Inquiry } from "@/type/product";
 import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 
 interface PageProps {
   params: { id: string };
@@ -12,18 +13,22 @@ interface PageProps {
 
 export default function BoardDetailPage({ params }: PageProps) {
   const [inquiry, setInquiry] = useState<Inquiry | null>(null);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const searchParams = useSearchParams();
   const router = useRouter();
 
-  // 로그인 유저 확인
   useEffect(() => {
-    const fetchUser = async () => {
+    const checkUser = async () => {
       const { data } = await supabase.auth.getUser();
-      setUser(data.user); // 로그인된 유저 정보 저장
+      if (!data.user) {
+        alert("로그인이 필요합니다.");
+        router.push("/login");
+      } else {
+        setUser(data.user);
+      }
     };
-
-    fetchUser();
-  }, []);
+    checkUser();
+  }, [router]);
 
   // 게시글 불러오기
   useEffect(() => {
