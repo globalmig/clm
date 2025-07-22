@@ -1,28 +1,42 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Inquiry } from "@/type/product";
+import axios from "axios";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
-const dummyPosts = [
-  {
-    id: 1,
-    title: "제품 문의드립니다.",
-    writer: "홍길동",
-    date: "2025-07-21",
-  },
-  {
-    id: 2,
-    title: "납품 일정 확인 요청",
-    writer: "김영희",
-    date: "2025-07-20",
-  },
-  {
-    id: 3,
-    title: "A/S 관련 문의",
-    writer: "이철수",
-    date: "2025-07-19",
-  },
-];
+const ITEMS_PER_PAGE = 10;
 
 export default function Board() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+
+  const [inquiry, setInquiry] = useState<Inquiry[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/api/board", {
+          params: {
+            page: currentPage,
+            pageSize: ITEMS_PER_PAGE,
+          },
+        });
+        setInquiry(res.data.items || []);
+        setTotalCount(res.data.totalCount || 0);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchData();
+  }, [currentPage]);
+
   return (
     <div className="max-w-[1440px] mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold text-center border-b pb-6 mb-10">문의 게시판</h1>
@@ -38,21 +52,52 @@ export default function Board() {
             </tr>
           </thead>
           <tbody>
-            {dummyPosts.map((post, index) => (
-              <tr key={post.id} className="border-b hover:bg-gray-50">
-                <td className="px-4 py-3">{dummyPosts.length - index}</td>
-                <td className="px-4 py-3 truncate text-center">
-                  <Link href={`/board/${post.id}`} className=" hover:underline">
-                    {post.title}
-                  </Link>
+            {inquiry.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="text-center py-6 text-gray-500">
+                  등록된 문의가 없습니다.
                 </td>
-                <td className="px-4 py-3">{post.writer}</td>
-                <td className="px-4 py-3">{post.date}</td>
               </tr>
-            ))}
+            ) : (
+              inquiry.map((post, index) => (
+                <tr key={post.id} className="border-b hover:bg-gray-50 cursor-pointer" onClick={() => router.push(`/board/${post.id}`)}>
+                  <td className="px-4 py-3">{totalCount - ((currentPage - 1) * ITEMS_PER_PAGE + index)}</td>
+                  <td className="px-4 py-3 truncate text-center hover:underline">{post.title}</td>
+                  <td className="px-4 py-3">{post.name}</td>
+                  <td className="px-4 py-3">
+                    {new Date(post.created_at).toLocaleDateString("ko-KR", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {inquiry.length > 0 && (
+        <Pagination className="mt-10">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href={`?page=${Math.max(currentPage - 1, 1)}`} aria-disabled={currentPage === 1} />
+            </PaginationItem>
+            {Array.from({ length: totalPages }).map((_, idx) => (
+              <PaginationItem key={idx}>
+                <PaginationLink href={`?page=${idx + 1}`} isActive={currentPage === idx + 1}>
+                  {idx + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext href={`?page=${Math.min(currentPage + 1, totalPages)}`} aria-disabled={currentPage === totalPages} />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
 
       <div className="text-right mt-6">
         <Link href="/board/write" className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">

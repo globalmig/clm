@@ -7,17 +7,38 @@ export default function BoardWritePage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
+  const [contact, setContact] = useState("");
   const [content, setContent] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // TODO: 서버에 데이터 전송 처리
-    console.log("작성된 글:", { name, title, content, password });
+    if (!name || !title || !contact || !content || !password) {
+      return alert("모든 내용을 입력해주세요.");
+    }
 
-    // 작성 후 리스트로 이동
-    router.push("/board");
+    try {
+      const res = await fetch("/api/board", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, title, contact, content, password }),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.error || "등록 실패");
+      }
+
+      alert("문의가 등록되었습니다.");
+      router.push("/board");
+    } catch (err) {
+      console.error(err);
+      alert("오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -31,6 +52,14 @@ export default function BoardWritePage() {
             이름
           </label>
           <input id="name" type="text" required value={name} onChange={(e) => setName(e.target.value)} className="w-full border rounded px-3 py-2" />
+        </div>
+
+        {/* contact */}
+        <div>
+          <label htmlFor="contact" className="block font-semibold mb-1">
+            연락처
+          </label>
+          <input id="contact" type="text" required value={contact} onChange={(e) => setContact(e.target.value)} className="w-full border rounded px-3 py-2" />
         </div>
 
         {/* 제목 */}

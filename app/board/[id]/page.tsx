@@ -1,48 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
-import { notFound } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { Inquiry } from "@/type/product";
 
-const dummyPosts = [
-  {
-    id: 1,
-    title: "제품 문의드립니다.",
-    writer: "홍길동",
-    date: "2025-07-21",
-    content: "제품 관련하여 견적을 요청드립니다. 자세한 내용을 보내주세요.",
-    password: "1234",
-  },
-  {
-    id: 2,
-    title: "납품 일정 확인 요청",
-    writer: "김영희",
-    date: "2025-07-20",
-    content: "납품 예상 일정과 준비 사항 알려주세요.",
-    password: "5678",
-  },
-  {
-    id: 3,
-    title: "A/S 관련 문의",
-    writer: "이철수",
-    date: "2025-07-19",
-    content: "사용 중 문제가 발생했습니다. A/S 절차 안내 부탁드립니다.",
-    password: "0000",
-  },
-];
+interface PageProps {
+  params: { id: string };
+}
 
-export default function BoardDetailPage({ params }: { params: { id: string } }) {
-  const post = dummyPosts.find((p) => p.id === Number(params.id));
+export default function BoardDetailPage({ params }: PageProps) {
+  const [inquiry, setInquiry] = useState<Inquiry | null>(null);
   const [inputPassword, setInputPassword] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
-  if (!post) {
-    return notFound();
-  }
+  // 게시글 불러오기
+  useEffect(() => {
+    const fetchInquiry = async () => {
+      try {
+        const res = await axios.get(`/api/board/${params.id}`);
+        setInquiry(res.data);
+      } catch (err) {
+        console.error("❌ 게시글 불러오기 실패:", err);
+      }
+    };
+
+    fetchInquiry();
+  }, [params.id]);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputPassword === post.password) {
+
+    if (inquiry && inputPassword === inquiry.password) {
       setIsVerified(true);
       setError("");
     } else {
@@ -50,37 +41,48 @@ export default function BoardDetailPage({ params }: { params: { id: string } }) 
     }
   };
 
+  if (!inquiry) {
+    return <p className="text-center py-20">게시글을 불러오는 중입니다...</p>;
+  }
+
   return (
-    <div className="max-w-[800px] mx-auto px-4 py-12">
+    <div className="max-w-[1440px] mx-auto px-4 py-12">
       {!isVerified ? (
         <form onSubmit={handlePasswordSubmit} className="border rounded-lg p-8 shadow max-w-[500px] mx-auto">
           <h2 className="text-xl font-semibold mb-6 text-center">비밀번호 확인</h2>
-
           <p className="text-sm text-gray-500 mb-4 text-center">이 글은 보호되어 있습니다. 비밀번호를 입력해주세요.</p>
-
           <input type="password" value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} placeholder="비밀번호 입력" className="w-full border rounded px-4 py-2 mb-4" required />
-
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
           <button type="submit" className="w-full bg-black text-white py-2 rounded hover:bg-gray-800">
             확인
           </button>
         </form>
       ) : (
         <div className="border rounded-xl px-6 py-10 shadow">
-          <h1 className="text-2xl font-bold mb-6 border-b pb-4">{post.title}</h1>
+          <h1 className="text-2xl font-bold mb-6 border-b pb-4">{inquiry.title}</h1>
 
           <div className="mb-4 text-sm text-gray-500 flex justify-between">
-            <span>작성자: {post.writer}</span>
-            <span>작성일: {post.date}</span>
+            <span>작성자: {inquiry.name}</span>
+            <span>연락처: {inquiry.content}</span>
+            <span>
+              작성일:{" "}
+              {new Date(inquiry.created_at).toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })}
+            </span>
           </div>
 
-          <div className="text-base whitespace-pre-line leading-relaxed pt-6">{post.content}</div>
+          <div className="text-base whitespace-pre-line leading-relaxed pt-6">{inquiry.content}</div>
 
           <div className="mt-10 text-right">
-            <a href="/board" className="inline-block px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700">
+            <button onClick={() => router.push(`/board/edit/${inquiry.id}`)} className="inline-block px-4 py-2 rounded border mr-4  text-zinc-800 hover:bg-gray-700 hover:text-white">
+              수정하기
+            </button>
+            <button onClick={() => router.push("/board")} className="inline-block px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700">
               목록으로
-            </a>
+            </button>
           </div>
         </div>
       )}
