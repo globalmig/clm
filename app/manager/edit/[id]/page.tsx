@@ -20,19 +20,6 @@ export default function AdminEditPage() {
 
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) {
-        alert("로그인이 필요합니다.");
-        router.push("/login");
-      } else {
-        setUser(data.user);
-      }
-    };
-    checkUser();
-  }, [router]);
-
   // 기존 데이터 불러오기
   useEffect(() => {
     const fetchData = async () => {

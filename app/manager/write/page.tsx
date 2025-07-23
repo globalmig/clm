@@ -17,19 +17,6 @@ export default function AdminPostPage() {
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) {
-        alert("로그인이 필요합니다.");
-        router.push("/login");
-      } else {
-        setUser(data.user);
-      }
-    };
-    checkUser();
-  }, [router]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
