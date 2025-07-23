@@ -21,14 +21,26 @@ export default function Gnb() {
       <div className="w-full max-w-[1440px] mx-auto h-24 flex items-center justify-between px-4">
         {/* 로고 */}
         <Link href="/" className="text-2xl font-bold flex items-center gap-4">
-          <Image src="/images/logo.gif" alt="CLM Logo" width={40} height={40} />
-          씨엘엠
+          <Image src="/images/logo.gif" alt="CLM Logo" width={60} height={60} />
+          <div>
+            <p>(주)씨엘엠</p>
+            <p className="text-xs text-center text-zinc-500">CLM CO.LTD</p>
+          </div>
         </Link>
 
         {/* 데스크탑 메뉴 */}
         <ul className="hidden lg:flex gap-10">
           <li>
             <Link href="/">홈</Link>
+          </li>
+          <li>
+            <button
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent("scroll-to-company"));
+              }}
+            >
+              회사소개
+            </button>
           </li>
           <li>
             <Link href="/products">제품소개</Link>
@@ -62,6 +74,16 @@ export default function Gnb() {
               <Link href="/" onClick={toggleMenu}>
                 홈
               </Link>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  toggleMenu();
+                  window.dispatchEvent(new CustomEvent("scroll-to-company"));
+                }}
+              >
+                회사소개
+              </button>
             </li>
             <li>
               <Link href="/products" onClick={toggleMenu}>

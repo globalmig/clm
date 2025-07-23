@@ -8,11 +8,11 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 // import required modules
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 
 export default function Slider() {
   return (
-    <div className="w-full max-w-[1456px] h-[600px] relative">
+    <div className="w-full max-w-[1456px] h-[400px] relative">
       <Swiper
         spaceBetween={12}
         centeredSlides={true}
@@ -21,10 +21,10 @@ export default function Slider() {
           disableOnInteraction: false,
         }}
         pagination={{
-          clickable: true,
+          clickable: false,
         }}
-        navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
+        navigation={false}
+        modules={[Autoplay]}
         className="mySwiper rounded-3xl h-full flex items-center"
       >
         <SwiperSlide className="!flex !items-center !justify-center h-full">

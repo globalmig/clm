@@ -10,7 +10,7 @@ export default function Footer() {
           <p className="text-sm">
             (주)씨엘엠 정득주 | 서울특별시 금천구 두산로 70, 비동 3층 327호(독산동,현대지식산업센터)
             <br />
-            사업자등록번호 : 620-88-01679 | 전화번호 : 02-2469-2370
+            사업자등록번호 : 620-88-01679 | 전화번호 : 02-2169-2370 | FAX : 02-2169-2371
           </p>
           <p>이메일 : jerryjeong2012@daum.net</p>
           <Link href="/manager" className="text-sm text-zinc-300 hover:text-white transition-colors duration-200">
