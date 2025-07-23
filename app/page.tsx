@@ -1,6 +1,5 @@
 "use client";
 import Slider from "./components/common/Slider";
-
 import GoogleMap from "./components/common/GoogleMap";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,10 +20,14 @@ const videoList = ["/videos/1.mp4", "/videos/2.mp4", "/videos/3.mp4", "/videos/4
 export default function Home() {
   const companyRef = useRef<HTMLDivElement>(null);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
+  // 영상 인덱스 바뀔 때마다 재생
   useEffect(() => {
-    const video = videoRef.current;
+    const isMobile = window.innerWidth < 768;
+    const video = isMobile ? mobileVideoRef.current : desktopVideoRef.current;
+
     if (video) {
       video.load();
       video.play().catch((e) => console.warn("자동 재생 실패:", e));
@@ -35,21 +38,18 @@ export default function Home() {
     setCurrentVideoIndex((prev) => (prev + 1) % videoList.length);
   };
 
+  // #company 스크롤 처리
   useEffect(() => {
-    // ✅ 커스텀 이벤트 수신
     const handler = () => {
       companyRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "center",
       });
-
-      // 주소창에 #company 추가 (선택적)
       history.replaceState(null, "", "/#company");
     };
 
     window.addEventListener("scroll-to-company", handler);
 
-    // ✅ 최초 접속 시 #company로 직접 들어온 경우 처리
     if (window.location.hash === "#company") {
       setTimeout(() => {
         companyRef.current?.scrollIntoView({
@@ -64,26 +64,17 @@ export default function Home() {
       window.removeEventListener("scroll-to-company", handler);
     };
   }, []);
+
   return (
     <div className="flex flex-col items-center">
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8">
         {/* Hero Section */}
-        <div className="w-full flex flex-col md:flex-row justify-between items-center border border-zinc-300 rounded-3xl overflow-hidden h-[200px] md:h-[400px] transform transition-transform duration-500 ease-in-out mt-8">
-          <div className="w-full md:w-[50%]">
-            <video
-              ref={videoRef}
-              src={videoList[currentVideoIndex]}
-              autoPlay
-              loop={false} // loop 제거 (연속 재생 위해)
-              muted
-              playsInline
-              onEnded={handleVideoEnd}
-              className="w-full h-full object-cover"
-            />
-            
-            {/* <Image src="/images/clm_hero.png" alt="Main Image" width={950} height={800} className="w-full h-full object-cover" /> */}
+        <div className="w-full flex flex-col md:flex-row justify-between items-center border border-zinc-300 rounded-3xl overflow-hidden h-[300px] md:h-[400px] mt-8">
+          <div className="w-full h-full md:w-[50%]">
+            <video ref={desktopVideoRef} src={videoList[currentVideoIndex]} autoPlay muted playsInline onEnded={handleVideoEnd} className="w-full h-full object-cover hidden md:block" />
+            <video ref={mobileVideoRef} src={videoList[currentVideoIndex]} autoPlay muted playsInline onEnded={handleVideoEnd} className="w-full h-full object-contain block md:hidden" />
           </div>
-          <div className="w-full hidden md:flex md:w-[50%] ">
+          <div className="w-full hidden md:flex md:w-[50%]">
             <Slider />
           </div>
         </div>
