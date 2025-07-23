@@ -73,7 +73,7 @@ export default function Home() {
             <div className="w-full md:w-[55%] text-start">
               {/* 인사말 */}
               <div className="w-full text-start">
-                <h3 className="text-3xl font-bold mb-4">인사말</h3>
+                <h3 className="text-3xl font-bold  py-6 md:pt-20">인사말</h3>
                 <p className="text-sm md:text-base text-zinc-500">
                   ㈜씨엘엠은 다년간의 노하우로 라벨러를 제조하며 창의적인 기술력으로 제품개발을 하고 있습니다.
                   <br /> 반자동라벨러, 자동라벨러, 프린터인쇄라벨러, 특주주문형 라벨러를 고객 사양에 적합하게 제조합니다. <br />
@@ -90,7 +90,7 @@ export default function Home() {
               </div>
 
               {/* 연혁 */}
-              <div className="w-full mt-10 border-t border-zinc-300 pt-6">
+              <div className="w-full mt-10 border-t border-zinc-300 pt-10 md:pt-20">
                 <h3 className="text-3xl font-bold mb-4">연혁</h3>
                 <div className="flex gap-4">
                   <div className="w-full sm:w-[30%] flex flex-col gap-2">

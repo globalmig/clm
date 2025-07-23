@@ -38,7 +38,7 @@ export default function Board() {
   }, [currentPage]);
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 py-12">
+    <div className="max-w-[1440px] mx-auto px-4 py-12 mb-40">
       <h1 className="text-3xl font-bold text-center border-b pb-6 mb-10">문의 게시판</h1>
 
       {/* 데스크탑 테이블 */}

@@ -1,18 +1,27 @@
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
     <div className="bg-black w-full py-10">
       <div className="w-full max-w-[1440px] mx-auto h-full flex flex-col justify-center px-4 py-6 text-zinc-400">
         <div className="flex flex-col gap-2 items-center">
-          <p className="text-2xl font-bold pb-2">(주)씨엘엠</p>
-          <p className="text-sm">
-            (주)씨엘엠 정득주 | 서울특별시 금천구 두산로 70, 비동 3층 327호(독산동,현대지식산업센터)
+          <Link href="/" className="text-2xl font-bold flex items-center gap-2 mb-4">
+            <Image src="/images/logo.gif" alt="CLM Logo" width={50} height={50} />
+            <div>
+              <p>(주)씨엘엠</p>
+              <p className="text-xs text-center text-zinc-500">CLM CO.LTD</p>
+            </div>
+          </Link>
+
+          <p className="text-sm text-center">
+            주식회사 씨엘엠 대표이사 : 정득주
             <br />
-            사업자등록번호 : 620-88-01679 | 전화번호 : 02-2169-2370 | FAX : 02-2169-2371
+            사업자등록번호 : 620-88-01679 | 이메일 : jerryjeong2012@daum.net
+            <br /> 전화번호 : 02-2169-2370 | FAX : 02-2169-2371
           </p>
-          <p>이메일 : jerryjeong2012@daum.net</p>
+
           <Link href="/manager" className="text-sm text-zinc-300 hover:text-white transition-colors duration-200">
             관리자 페이지
           </Link>

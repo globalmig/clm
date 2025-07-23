@@ -110,7 +110,7 @@ export default function Manager() {
         </div>
 
         {/* 데스크탑: 버튼 리스트 (sm 이상) */}
-        <div className="hidden sm:flex justify-center items-center gap-2 mb-6">
+        <div className="hidden sm:flex justify-center items-center gap-2 mb-6 ">
           {[...BOARD_TYPES, { label: "고객 게시판", value: "board" }].map((item) => (
             <button key={item.value} className={`border rounded px-4 py-2 ${type === item.value ? "bg-black text-white" : ""}`} onClick={() => handleTypeChange(item.value)}>
               {item.label}
@@ -119,13 +119,13 @@ export default function Manager() {
         </div>
 
         {loading ? (
-          <p className="text-center py-6">데이터 로딩 중입니다</p>
+          <p className="text-center py-20  min-h-[400px]">데이터 로딩 중입니다</p>
         ) : product.length === 0 ? (
-          <p className="text-center py-6 text-gray-500">등록된 게시물이 없습니다.</p>
+          <p className="text-center py-20 text-gray-500  min-h-[400px]">등록된 게시물이 없습니다.</p>
         ) : (
-          <>
+          <div className="">
             {/* ✅ 데스크탑 테이블 (md 이상) */}
-            <div className="hidden md:block w-full border rounded-lg overflow-hidden">
+            <div className="hidden md:block w-full border rounded-lg overflow-hidden ">
               <table className="table-fixed w-full text-left text-sm">
                 <thead className="bg-gray-100 border-b">
                   <tr>
@@ -203,10 +203,10 @@ export default function Manager() {
                 </div>
               ))}
             </div>
-          </>
+          </div>
         )}
 
-        <div className="flex gap-4 justify-between mt-4 flex-wrap">
+        <div className="flex gap-4 justify-between mt-4 flex-wrap mb-40">
           <button onClick={handleLogout} className="text-red-500 border rounded px-2 py-1">
             로그아웃
           </button>
