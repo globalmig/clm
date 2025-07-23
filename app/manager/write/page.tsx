@@ -34,9 +34,15 @@ export default function AdminPostPage() {
       const res = await axios.post("/api/admin/upload", formData);
       alert("등록 완료!");
       router.push("/manager");
-    } catch (err) {
-      alert("등록 실패");
-      console.error(err);
+    } catch (err: any) {
+      const status = err?.response?.status;
+      const serverMsg = err?.response?.data?.error;
+      if (status === 400 && serverMsg === "50MB 이하 파일만 업로드 가능합니다.") {
+        alert("❗ 50MB 이하 파일만 업로드 가능합니다.");
+      } else {
+        alert("등록 실패");
+        console.error(err);
+      }
     } finally {
       setLoading(false);
     }

@@ -32,14 +32,20 @@ export async function POST(req: NextRequest) {
 
     const tableName = type;
 
-    const file = rawFile as Blob;
+    const file = rawFile as File;
+
+    // ✅ 파일 크기 제한 (50MB)
+    if (file.size > 50 * 1024 * 1024) {
+      return NextResponse.json({ error: "50MB 이하 파일만 업로드 가능합니다." }, { status: 400 });
+    }
+
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const fileName = (rawFile as File).name || `upload_${Date.now()}`;
+    const fileName = file.name || `upload_${Date.now()}`;
     const safeFileName = encodeURIComponent(fileName).replace(/%/g, "_");
     const filePath = `${type}/${Date.now()}/${safeFileName}`;
-    const contentType = (rawFile as File).type || "application/octet-stream";
+    const contentType = file.type || "application/octet-stream";
 
     const { error: uploadError } = await supabase.storage.from("media").upload(filePath, buffer, {
       contentType,
