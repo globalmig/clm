@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Inquiry } from "@/type/product";
-import { supabase } from "@/lib/supabase";
+
 import { User } from "@supabase/supabase-js";
 
 interface PageProps {

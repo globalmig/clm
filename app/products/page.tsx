@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { Product } from "@/type/product";
-import { supabase } from "@/lib/supabase";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { User } from "@supabase/supabase-js";
@@ -22,15 +21,15 @@ export default function Products() {
 
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
-  // 로그인 유저 확인
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user);
-    };
+  // // 로그인 유저 확인
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const { data } = await supabase.auth.getUser();
+  //     setUser(data.user);
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   // 제품 목록 불러오기
   useEffect(() => {
