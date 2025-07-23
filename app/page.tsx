@@ -131,7 +131,7 @@ export default function Home() {
         </div>
 
         {/* 제품소개 */}
-        <section className="my-20">
+        <section className="my-28">
           <Link href="/products">
             <div className="group w-full flex justify-between items-center border-b border-zinc-300 pb-4 mb-8">
               <h2 className="text-2xl font-bold">제품소개</h2>
