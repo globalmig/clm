@@ -24,18 +24,18 @@ export default function Manager() {
   const [product, setProduct] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) {
-        alert("로그인이 필요합니다.");
-        router.push("/login");
-      } else {
-        setUser(data.user);
-      }
-    };
-    checkUser();
-  }, [router]);
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     const { data } = await supabase.auth.getUser();
+  //     if (!data.user) {
+  //       alert("로그인이 필요합니다.");
+  //       router.push("/login");
+  //     } else {
+  //       setUser(data.user);
+  //     }
+  //   };
+  //   checkUser();
+  // }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
