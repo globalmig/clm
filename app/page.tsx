@@ -4,7 +4,7 @@ import Slider from "./components/common/Slider";
 import GoogleMap from "./components/common/GoogleMap";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const sectionsData = [
   {
@@ -16,8 +16,24 @@ const sectionsData = [
   },
 ];
 
+const videoList = ["/videos/1.mp4", "/videos/2.mp4", "/videos/3.mp4", "/videos/4.mp4", "/videos/5.mp4", "/videos/6.mp4", "/videos/7.mp4"];
+
 export default function Home() {
   const companyRef = useRef<HTMLDivElement>(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.load();
+      video.play().catch((e) => console.warn("자동 재생 실패:", e));
+    }
+  }, [currentVideoIndex]);
+
+  const handleVideoEnd = () => {
+    setCurrentVideoIndex((prev) => (prev + 1) % videoList.length);
+  };
 
   useEffect(() => {
     // ✅ 커스텀 이벤트 수신
@@ -52,9 +68,20 @@ export default function Home() {
     <div className="flex flex-col items-center">
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8">
         {/* Hero Section */}
-        <div className="w-full flex flex-col md:flex-row justify-between items-center border border-zinc-300 rounded-3xl overflow-hidden h-auto md:h-[400px] transform transition-transform duration-500 ease-in-out">
+        <div className="w-full flex flex-col md:flex-row justify-between items-center border border-zinc-300 rounded-3xl overflow-hidden h-[200px] md:h-[400px] transform transition-transform duration-500 ease-in-out mt-8">
           <div className="w-full md:w-[50%]">
-            <Image src="/images/clm_hero.png" alt="Main Image" width={950} height={800} className="w-full h-full object-cover" />
+            <video
+              ref={videoRef}
+              src={videoList[currentVideoIndex]}
+              autoPlay
+              loop={false} // loop 제거 (연속 재생 위해)
+              muted
+              playsInline
+              onEnded={handleVideoEnd}
+              className="w-full h-full object-cover"
+            />
+            
+            {/* <Image src="/images/clm_hero.png" alt="Main Image" width={950} height={800} className="w-full h-full object-cover" /> */}
           </div>
           <div className="w-full hidden md:flex md:w-[50%] ">
             <Slider />
@@ -94,13 +121,13 @@ export default function Home() {
               <div className="w-full mt-10 border-t border-zinc-300 pt-10 md:pt-20">
                 <h3 className="text-3xl font-bold mb-4">연혁</h3>
                 <div className="flex gap-4">
-                  <div className="w-full sm:w-[30%] flex flex-col gap-2">
+                  <div className="w-full sm:w-[10%] flex flex-col gap-2">
                     <p className="text-sm font-bold text-zinc-700">2014.09.01</p>
                     <p className="text-sm font-bold text-zinc-700">2018.12</p>
                     <p className="text-sm font-bold text-zinc-700">2019.09</p>
                     <p className="text-sm font-bold text-zinc-700">2020.07.01</p>
                   </div>
-                  <div className="w-full sm:w-[70%] text-ce flex flex-col gap-2">
+                  <div className="w-full sm:w-[90%] text-start flex flex-col gap-2">
                     <p className="text-sm text-zinc-500">씨엘엠(CLM) 회사설립, 개인사업자</p>
                     <p className="text-sm text-zinc-500">대륭20차 분양 입주</p>
                     <p className="text-sm text-zinc-500">회사 확장 매입(현대지식산업센터)</p>
@@ -138,7 +165,6 @@ export default function Home() {
         <Link href="/location">
           <div className="group w-full flex justify-between items-center border-b border-zinc-300 pb-4 mb-4">
             <h2 className="text-2xl font-bold">오시는길</h2>
-            <button className="text-zinc-500 text-base group-hover:text-sky-950 group-hover:text-lg transition-all">더보기 {">"}</button>
           </div>
         </Link>
         <div className="my-6 rounded-2xl">
