@@ -43,7 +43,8 @@ export default function Videos() {
           {currentVideo && (
             <div className="w-full max-w-[1440px] mb-8 border-b-2 pb-8 md:pb-20">
               <p className="mb-2 text-lg md:text-3xl font-semibold text-center py-2 md:py-10">{currentVideo.title}</p>
-              <video src={currentVideo.file_url} controls playsInline muted className="w-full max-h-[700px] rounded-3xl object-cover" />
+              <div></div>
+              <video src={currentVideo.file_url} controls autoPlay playsInline muted className="max-h-[700px] mx-auto rounded-3xl object-cover" />
             </div>
           )}
         </>
