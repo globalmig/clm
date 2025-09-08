@@ -19,8 +19,16 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "씨엘엠",
-  description: "씨엘엠(CLM)은 산업 현장의 효율성과 안전성을 극대화하는 산업용 기계 및 설비 전문 제조 기업입니다.",
+  metadataBase: new URL("https://www.labelmc.co.kr/"),
+  title: {
+    default: "씨엘엠(CLM) | 산업용 기계 · 설비 전문 제조",
+    template: "%s | 씨엘엠(CLM)",
+  },
+  description: "자동라벨러, 인쇄라벨러, 특주형 라벨러 전문 제조사 씨엘엠. CAD-150, CAU&PAU, CASS-150 등 제품 정보와 시공/적용 영상을 확인하세요.",
+  keywords: ["씨엘엠", "CLM", "자동라벨러", "인쇄라벨러", "라벨러", "특주라벨러"],
+  alternates: {
+    canonical: "https://www.labelmc.co.kr",
+  },
   openGraph: {
     title: "씨엘엠",
     description: "씨엘엠(CLM)은 산업 현장의 효율성과 안전성을 극대화하는 산업용 기계 및 설비 전문 제조 기업입니다.",
@@ -42,6 +50,10 @@ export const metadata: Metadata = {
   // },
   icons: {
     icon: "/favicon.png",
+  },
+  other: {
+    // "google-site-verification": "구글_콘솔에서_받은_코드", // e.g. abcdefg...
+    "naver-site-verification": "de252da3fda86051c3d46e36eb89c14dcc58e851", // e.g. 1234567...
   },
 };
 

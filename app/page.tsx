@@ -23,19 +23,68 @@ export default function Home() {
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
+  // 비디오 재생 상태 관리
+  const [showVideo, setShowVideo] = useState(true);
+  const [cycleCount, setCycleCount] = useState(0);
+  const [playFailCount, setPlayFailCount] = useState(0);
+  const MAX_CYCLES = 3; // 최대 순환 횟수
+  const MAX_FAIL_COUNT = 3; // 최대 재생 실패 횟수
+
   // 영상 인덱스 바뀔 때마다 재생
   useEffect(() => {
+    if (!showVideo) return;
+
     const isMobile = window.innerWidth < 768;
     const video = isMobile ? mobileVideoRef.current : desktopVideoRef.current;
 
     if (video) {
       video.load();
-      video.play().catch((e) => console.warn("자동 재생 실패:", e));
+      video.play().catch((e) => {
+        console.warn("자동 재생 실패:", e);
+        setPlayFailCount((prev) => prev + 1);
+
+        // 연속으로 재생 실패하면 이미지로 대체
+        if (playFailCount >= MAX_FAIL_COUNT - 1) {
+          setShowVideo(false);
+        }
+      });
     }
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex, showVideo, playFailCount]);
 
   const handleVideoEnd = () => {
-    setCurrentVideoIndex((prev) => (prev + 1) % videoList.length);
+    const nextIndex = (currentVideoIndex + 1) % videoList.length;
+
+    // 한 사이클 완료 체크
+    if (nextIndex === 0) {
+      setCycleCount((prev) => prev + 1);
+    }
+
+    // 최대 사이클 도달시 이미지로 대체
+    if (cycleCount >= MAX_CYCLES) {
+      setShowVideo(false);
+      return;
+    }
+
+    setCurrentVideoIndex(nextIndex);
+    setPlayFailCount(0); // 성공적으로 재생되면 실패 카운트 리셋
+  };
+
+  // 사용자 상호작용으로 비디오 재시작
+  const handleRestartVideo = () => {
+    setShowVideo(true);
+    setPlayFailCount(0);
+    setCurrentVideoIndex(0);
+
+    const isMobile = window.innerWidth < 768;
+    const video = isMobile ? mobileVideoRef.current : desktopVideoRef.current;
+
+    if (video) {
+      video.load();
+      video.play().catch((e) => {
+        console.warn("수동 재생 실패:", e);
+        setShowVideo(false);
+      });
+    }
   };
 
   // #company 스크롤 처리
@@ -70,9 +119,24 @@ export default function Home() {
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8">
         {/* Hero Section */}
         <div className="w-full flex flex-col md:flex-row justify-between items-center border border-zinc-300 rounded-3xl overflow-hidden h-[300px] md:h-[400px] mt-8">
-          <div className="w-full h-full md:w-[50%]">
-            <video ref={desktopVideoRef} src={videoList[currentVideoIndex]} autoPlay muted playsInline onEnded={handleVideoEnd} className="w-full h-full object-cover hidden md:block" />
-            <video ref={mobileVideoRef} src={videoList[currentVideoIndex]} autoPlay muted playsInline onEnded={handleVideoEnd} className="w-full h-full object-contain block md:hidden" />
+          <div className="w-full h-full md:w-[50%] relative">
+            {showVideo ? (
+              <>
+                <video ref={desktopVideoRef} src={videoList[currentVideoIndex]} autoPlay muted playsInline onEnded={handleVideoEnd} className="w-full h-full object-cover hidden md:block" />
+                <video ref={mobileVideoRef} src={videoList[currentVideoIndex]} autoPlay muted playsInline onEnded={handleVideoEnd} className="w-full h-full object-contain block md:hidden" />
+              </>
+            ) : (
+              <div className="w-full h-full relative cursor-pointer group" onClick={handleRestartVideo}>
+                <Image src="/images/main/상면인쇄&상면자동라벨러(CAU&PAU).jpg" alt="비디오 썸네일" fill className="object-cover" />
+                {/* 재생 버튼 오버레이 */}
+                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center group-hover:bg-opacity-40 transition-all">
+                  <div className="w-16 h-16 bg-white bg-opacity-80 rounded-full flex items-center justify-center group-hover:bg-opacity-100 transition-all">
+                    <div className="w-0 h-0 border-l-[12px] border-l-black border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent ml-1"></div>
+                  </div>
+                </div>
+                <div className="absolute bottom-4 left-4 text-white text-sm bg-black bg-opacity-50 px-3 py-1 rounded">클릭해서 영상 재생</div>
+              </div>
+            )}
           </div>
           <div className="w-full hidden md:flex md:w-[50%]">
             <Slider />
