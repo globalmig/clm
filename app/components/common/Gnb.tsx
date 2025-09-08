@@ -34,13 +34,15 @@ export default function Gnb() {
             <Link href="/">홈</Link>
           </li>
           <li>
-            <button
-              onClick={() => {
-                window.dispatchEvent(new CustomEvent("scroll-to-company"));
-              }}
-            >
-              회사소개
-            </button>
+            <Link href={"/#company"}>
+              <button
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent("scroll-to-company"));
+                }}
+              >
+                회사소개
+              </button>
+            </Link>
           </li>
           <li>
             <Link href="/products">제품소개</Link>
