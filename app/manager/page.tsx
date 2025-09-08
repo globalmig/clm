@@ -41,7 +41,9 @@ export default function Manager() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/api/${type}`);
+        const res = await axios.get(`/api/${type}`, {
+          params: { limit: 1000 },
+        });
         const data = res.data;
 
         if (Array.isArray(data)) {
