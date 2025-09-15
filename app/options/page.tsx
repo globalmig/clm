@@ -56,7 +56,7 @@ export default function Products() {
         <p className="text-gray-500 text-lg py-20">상품 준비중입니다.</p>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
             {products.map((item, index) => (
               <div key={item.id ?? index} className="item text-center p-4 rounded-lg shadow border h-[370px] flex flex-col justify-between">
                 <div className="relative w-full h-[300px] mb-2">
